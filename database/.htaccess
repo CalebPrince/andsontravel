@@ -1,0 +1,4 @@
+# Defense in depth: the database only needs to be reachable by PHP, never
+# directly over HTTP. This blocks access even if a server is misconfigured
+# to serve the project root instead of public/.
+Require all denied

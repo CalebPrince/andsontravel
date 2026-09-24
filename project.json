@@ -1,0 +1,5 @@
+{
+  "description": "PHP + SQLite rebuild of Andson Travel Consult's website (visa/travel consultancy in Accra, Ghana), styled with Tailwind CSS. Includes public marketing pages, per-service application forms, and an admin dashboard for managing submissions.",
+  "tags": ["PHP", "SQLite", "Tailwind CSS"],
+  "category": "Web"
+}

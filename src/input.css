@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@theme {
+  /* Same single family the live site uses (Montserrat) for both headings and body */
+  --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+
+  /* Hero / dark navy: sampled from the live site's hero (rgb(25,40,65)), used
+     consistently across every hero slide rather than varying per-slide. */
+  --color-navy-950: #0d1424;
+  --color-navy-900: #192841;
+  --color-navy-800: #223454;
+  --color-navy-700: #2b4068;
+  --color-navy-600: #384f80;
+
+  /* Footer / CTA bar: sampled from the live site (rgb(30,30,30) / rgb(26,32,44)) */
+  --color-ink-900: #1a1a1a;
+  --color-ink-800: #24242a;
+
+  /* Brand blue: accent, CTAs, links. Sampled directly from the "ANDSON"
+     wordmark in the logo (public/assets/images/logo-original.jpg), not a
+     generic pick, so it's a true match to the existing brand color. */
+  --color-brand-400: #1596ff;
+  --color-brand-500: #1382ff;
+  --color-brand-600: #1070f0;
+  --color-brand-700: #0b4ca3;
+
+  /* Real WhatsApp brand green: used on every WhatsApp icon/button */
+  --color-whatsapp-500: #25d366;
+  --color-whatsapp-600: #1da851;
+
+  /* Warm sand: sampled from the live site's About section (rgb(247,242,238)) */
+  --color-sand-50: #ffffff;
+  --color-sand-100: #f7f2ee;
+  --color-sand-200: #ede4da;
+
+  /* Signal colors reused for application status badges */
+  --color-signal-new: #1070f0;
+  --color-signal-progress: #b45309;
+  --color-signal-done: #15803d;
+  --color-signal-closed: #6b7280;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-sand-50);
+    color: var(--color-navy-900);
+  }
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
+}
+
+@layer components {
+  .btn, .btn-primary, .btn-outline, .btn-outline-navy, .btn-whatsapp {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+  }
+  .btn-primary {
+    @apply bg-brand-600 text-white shadow-lg shadow-brand-600/20 hover:bg-brand-700 hover:-translate-y-0.5 focus-visible:ring-brand-500;
+  }
+  .btn-outline {
+    @apply border border-white/30 text-white hover:bg-white/10 focus-visible:ring-white;
+  }
+  .btn-outline-navy {
+    @apply border border-navy-900/15 text-navy-900 hover:bg-navy-900 hover:text-white focus-visible:ring-navy-700;
+  }
+  .btn-whatsapp {
+    @apply bg-whatsapp-500 text-white shadow-lg shadow-whatsapp-500/20 hover:bg-whatsapp-600 hover:-translate-y-0.5 focus-visible:ring-whatsapp-500;
+  }
+  .card {
+    @apply rounded-2xl border border-navy-900/5 bg-white shadow-sm shadow-navy-950/5 transition duration-200 ease-out hover:-translate-y-1 hover:shadow-lg hover:shadow-navy-950/10;
+  }
+  .section-eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full bg-brand-600/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-brand-700;
+  }
+  .field-label {
+    @apply mb-1.5 block text-sm font-semibold text-navy-900;
+  }
+  .field-input {
+    @apply w-full rounded-xl border border-navy-900/15 bg-white px-4 py-3 text-sm text-navy-900 placeholder:text-navy-900/40 transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30;
+  }
+  .badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold;
+  }
+}

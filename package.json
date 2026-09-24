@@ -1,0 +1,15 @@
+{
+  "name": "andsontravelconsult",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Andson Travel Consult — PHP + SQLite site with a Tailwind CSS front end.",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/input.css -o ./public/assets/css/app.css --minify",
+    "watch:css": "tailwindcss -i ./src/input.css -o ./public/assets/css/app.css --watch",
+    "serve": "php -S 127.0.0.1:8000 -t public"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.13",
+    "tailwindcss": "^4.1.13"
+  }
+}
