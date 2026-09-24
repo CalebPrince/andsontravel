@@ -10,16 +10,16 @@ declare(strict_types=1);
 function seedServicesData(): array
 {
     return [
-        ['slug' => 'one-on-one-travel-advice', 'title' => 'One-on-One Travel Advice', 'summary' => 'Personalized travel advice tailored to your needs.', 'icon' => 'compass'],
-        ['slug' => 'airbnb-booking', 'title' => 'Airbnb/Booking.com Booking', 'summary' => 'Assistance with booking accommodations through Airbnb or Booking.com.', 'icon' => 'home'],
-        ['slug' => 'visa-application-assistance', 'title' => 'Visa Application Assistance', 'summary' => 'Guidance and assistance throughout the visa application process.', 'icon' => 'document'],
-        ['slug' => 'online-passport-form-filling', 'title' => 'Online Passport Form Filling', 'summary' => 'Assistance with filling out passport application forms online.', 'icon' => 'passport'],
-        ['slug' => 'us-visa-form-filling-assistance', 'title' => 'US Visa Form Filling Assistance', 'summary' => 'Help with filling out US visa application forms accurately.', 'icon' => 'flag-us'],
-        ['slug' => 'uk-visa-form-filling-assistance', 'title' => 'UK Visa Form Filling Assistance', 'summary' => 'Help with filling out UK visa application forms accurately.', 'icon' => 'flag-uk'],
-        ['slug' => 'visa-application-fee-payment', 'title' => 'Visa Application Fee Payment', 'summary' => 'Assistance with the payment of visa application fees.', 'icon' => 'card'],
-        ['slug' => 'visa-pick-up-service', 'title' => 'Visa Pick Up Service', 'summary' => 'Service for picking up your visa documents on your behalf.', 'icon' => 'briefcase'],
-        ['slug' => 'counselling-service', 'title' => 'Counselling for Prospective Students', 'summary' => 'Guidance and counseling for students planning to study abroad.', 'icon' => 'graduate'],
-        ['slug' => 'travel-insurance-assistance', 'title' => 'Travel Insurance Assistance', 'summary' => 'Assistance with obtaining travel insurance for your trip.', 'icon' => 'shield'],
+        ['slug' => 'one-on-one-travel-advice', 'title' => 'One-on-One Travel Advice', 'summary' => 'Personalized travel advice tailored to your needs.', 'icon' => 'compass', 'image' => 'one-on-one-travel-advice.jpg'],
+        ['slug' => 'airbnb-booking', 'title' => 'Airbnb/Booking.com Booking', 'summary' => 'Assistance with booking accommodations through Airbnb or Booking.com.', 'icon' => 'home', 'image' => 'airbnb-booking.jpg'],
+        ['slug' => 'visa-application-assistance', 'title' => 'Visa Application Assistance', 'summary' => 'Guidance and assistance throughout the visa application process.', 'icon' => 'document', 'image' => 'visa-application-assistance.jpg'],
+        ['slug' => 'online-passport-form-filling', 'title' => 'Online Passport Form Filling', 'summary' => 'Assistance with filling out passport application forms online.', 'icon' => 'passport', 'image' => 'online-passport-form-filling.jpg'],
+        ['slug' => 'us-visa-form-filling-assistance', 'title' => 'US Visa Form Filling Assistance', 'summary' => 'Help with filling out US visa application forms accurately.', 'icon' => 'flag-us', 'image' => 'us-visa-form-filling-assistance.jpg'],
+        ['slug' => 'uk-visa-form-filling-assistance', 'title' => 'UK Visa Form Filling Assistance', 'summary' => 'Help with filling out UK visa application forms accurately.', 'icon' => 'flag-uk', 'image' => 'uk-visa-form-filling-assistance.jpg'],
+        ['slug' => 'visa-application-fee-payment', 'title' => 'Visa Application Fee Payment', 'summary' => 'Assistance with the payment of visa application fees.', 'icon' => 'card', 'image' => 'visa-application-fee-payment.jpg'],
+        ['slug' => 'visa-pick-up-service', 'title' => 'Visa Pick Up Service', 'summary' => 'Service for picking up your visa documents on your behalf.', 'icon' => 'briefcase', 'image' => 'visa-pick-up-service.jpg'],
+        ['slug' => 'counselling-service', 'title' => 'Counselling for Prospective Students', 'summary' => 'Guidance and counseling for students planning to study abroad.', 'icon' => 'graduate', 'image' => 'counselling-service.jpg'],
+        ['slug' => 'travel-insurance-assistance', 'title' => 'Travel Insurance Assistance', 'summary' => 'Assistance with obtaining travel insurance for your trip.', 'icon' => 'shield', 'image' => 'travel-insurance-assistance.jpg'],
     ];
 }
 

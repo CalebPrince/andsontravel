@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS services (
     title       TEXT NOT NULL,
     summary     TEXT NOT NULL,
     icon        TEXT NOT NULL DEFAULT 'sparkles',
+    image       TEXT,
     sort_order  INTEGER NOT NULL DEFAULT 0,
     is_active   INTEGER NOT NULL DEFAULT 1,
     created_at  TEXT NOT NULL DEFAULT (datetime('now')),

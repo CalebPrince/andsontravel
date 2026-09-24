@@ -31,7 +31,7 @@ their process correctly and confidently.
 | Counselling for Prospective Students | Guidance for students planning to study abroad |
 | Travel Insurance Assistance | Assistance obtaining travel insurance for a trip |
 
-This list, along with each service's icon, summary and active/inactive status, is editable from
+This list, along with each service's image, icon, summary and active/inactive status, is editable from
 Admin > Services rather than hardcoded, see [Admin area](#admin-area) below.
 
 ## Requirements
@@ -80,8 +80,8 @@ The admin area has a sidebar with:
   submitted from `/apply.php`
 - **Enquiries**: view, filter, search, and update the status of general contact messages
   submitted from `/contact.php`
-- **Services**: add, edit, reorder, activate/deactivate, or delete the services shown on the
-  homepage, `/services.php`, and each `/apply.php?service=...` page (this replaces editing PHP
+- **Services**: add, edit, reorder, activate/deactivate, choose a people-free card image, or delete
+  the services shown on the homepage, `/services.php`, and each `/apply.php?service=...` page (this replaces editing PHP
   code to change service content)
 - **FAQs**: add, edit, reorder, activate/deactivate, or delete the FAQs shown on the homepage and
   `/faqs.php`

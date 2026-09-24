@@ -29,15 +29,22 @@ require __DIR__ . '/../src/partials/header.php';
 
   <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
     <?php foreach ($services as $slug => $service): ?>
-      <div class="card flex flex-col p-6">
-        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-600/10 text-brand-700">
-          <?= icon($service['icon'], 'h-6 w-6') ?>
+      <div class="card group flex flex-col overflow-hidden">
+        <?php if ($service['image']): ?>
+          <div class="aspect-[4/3] overflow-hidden bg-sand-100">
+            <img src="/assets/images/services/<?= e($service['image']) ?>" alt="" width="1448" height="1086" loading="lazy" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]">
+          </div>
+        <?php endif; ?>
+        <div class="flex flex-1 flex-col p-6">
+          <div class="relative flex h-12 w-12 items-center justify-center rounded-xl bg-brand-600/10 text-brand-700 <?= $service['image'] ? '-mt-12 bg-white shadow-lg ring-4 ring-white' : '' ?>">
+            <?= icon($service['icon'], 'h-6 w-6') ?>
+          </div>
+          <h3 class="mt-5 font-display text-lg font-bold text-navy-900"><?= e($service['title']) ?></h3>
+          <p class="mt-2 flex-1 text-sm leading-relaxed text-navy-900/60"><?= e($service['summary']) ?></p>
+          <a href="/apply.php?service=<?= urlencode($slug) ?>" class="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-brand-700 hover:text-brand-600">
+            Apply Now <?= icon('arrow-right', 'h-4 w-4') ?>
+          </a>
         </div>
-        <h3 class="mt-5 font-display text-lg font-bold text-navy-900"><?= e($service['title']) ?></h3>
-        <p class="mt-2 flex-1 text-sm leading-relaxed text-navy-900/60"><?= e($service['summary']) ?></p>
-        <a href="/apply.php?service=<?= urlencode($slug) ?>" class="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-brand-700 hover:text-brand-600">
-          Apply Now <?= icon('arrow-right', 'h-4 w-4') ?>
-        </a>
       </div>
     <?php endforeach; ?>
   </div>

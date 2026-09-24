@@ -16,6 +16,7 @@ $values = [
     'slug'       => $existing['slug'] ?? '',
     'summary'    => $existing['summary'] ?? '',
     'icon'       => $existing['icon'] ?? 'sparkles',
+    'image'      => $existing['image'] ?? '',
     'sort_order' => $existing['sort_order'] ?? 0,
     'is_active'  => $existing['is_active'] ?? true,
 ];
@@ -28,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $values['slug']       = slugify((string) ($_POST['slug'] ?? '') ?: $values['title']);
         $values['summary']    = trim((string) ($_POST['summary'] ?? ''));
         $values['icon']       = (string) ($_POST['icon'] ?? 'sparkles');
+        $values['image']      = (string) ($_POST['image'] ?? '');
         $values['sort_order'] = (int) ($_POST['sort_order'] ?? 0);
         $values['is_active']  = isset($_POST['is_active']);
 
@@ -43,16 +45,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!in_array($values['icon'], availableServiceIcons(), true)) {
             $errors[] = 'Please choose an icon.';
         }
+        if ($values['image'] !== '' && !array_key_exists($values['image'], availableServiceImages())) {
+            $errors[] = 'Please choose a service image.';
+        }
         if (slugExists($values['slug'], $id)) {
             $errors[] = 'That slug is already used by another service. Try a different title or edit the slug.';
         }
 
         if (!$errors) {
             if ($id) {
-                updateService($id, $values['slug'], $values['title'], $values['summary'], $values['icon'], $values['sort_order'], $values['is_active']);
+                updateService($id, $values['slug'], $values['title'], $values['summary'], $values['icon'], $values['image'] ?: null, $values['sort_order'], $values['is_active']);
                 flash('success', 'Service updated.');
             } else {
-                createService($values['slug'], $values['title'], $values['summary'], $values['icon'], $values['sort_order'], $values['is_active']);
+                createService($values['slug'], $values['title'], $values['summary'], $values['icon'], $values['image'] ?: null, $values['sort_order'], $values['is_active']);
                 flash('success', 'Service created.');
             }
             redirect('/admin/services.php');
@@ -110,6 +115,17 @@ require __DIR__ . '/../../src/partials/flash.php';
           </label>
         <?php endforeach; ?>
       </div>
+    </div>
+
+    <div>
+      <label for="image" class="field-label">Card image</label>
+      <select id="image" name="image" class="field-input">
+        <option value="">No image</option>
+        <?php foreach (availableServiceImages() as $filename => $label): ?>
+          <option value="<?= e($filename) ?>" <?= $values['image'] === $filename ? 'selected' : '' ?>><?= e($label) ?></option>
+        <?php endforeach; ?>
+      </select>
+      <p class="mt-1.5 text-xs text-navy-900/45">All available images use object-only travel scenes with no people.</p>
     </div>
 
     <div class="grid gap-5 sm:grid-cols-2">

@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($action === 'toggle_active') {
-        updateService($id, $_POST['slug'] ?? '', $service['title'], $service['summary'], $service['icon'], $service['sort_order'], !$service['is_active']);
+        updateService($id, $_POST['slug'] ?? '', $service['title'], $service['summary'], $service['icon'], $service['image'], $service['sort_order'], !$service['is_active']);
         flash('success', 'Service ' . (!$service['is_active'] ? 'activated' : 'deactivated') . '.');
     }
 

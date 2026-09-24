@@ -35,6 +35,12 @@ function db(): PDO
     addColumnIfMissing($pdo, 'applications', 'extra_fields', 'TEXT');
     addColumnIfMissing($pdo, 'applications', 'seen_at', 'TEXT');
     addColumnIfMissing($pdo, 'contact_messages', 'seen_at', 'TEXT');
+    addColumnIfMissing($pdo, 'services', 'image', 'TEXT', function (PDO $pdo) {
+        $stmt = $pdo->prepare("UPDATE services SET image = :image WHERE slug = :slug AND (image IS NULL OR image = '')");
+        foreach (seedServicesData() as $service) {
+            $stmt->execute(['image' => $service['image'] ?? null, 'slug' => $service['slug']]);
+        }
+    });
 
     seedDefaultAdmin($pdo);
     seedServices($pdo);
@@ -89,7 +95,7 @@ function seedServices(PDO $pdo): void
     }
 
     $stmt = $pdo->prepare(
-        'INSERT INTO services (slug, title, summary, icon, sort_order) VALUES (:slug, :title, :summary, :icon, :sort_order)'
+        'INSERT INTO services (slug, title, summary, icon, image, sort_order) VALUES (:slug, :title, :summary, :icon, :image, :sort_order)'
     );
     foreach (seedServicesData() as $i => $service) {
         $stmt->execute([
@@ -97,6 +103,7 @@ function seedServices(PDO $pdo): void
             'title'      => $service['title'],
             'summary'    => $service['summary'],
             'icon'       => $service['icon'],
+            'image'      => $service['image'] ?? null,
             'sort_order' => $i * 10,
         ]);
     }

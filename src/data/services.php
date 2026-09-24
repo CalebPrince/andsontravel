@@ -7,7 +7,7 @@ declare(strict_types=1);
  * /apply.php?service=slug page per service, and validate incoming
  * application form submissions.
  *
- * @return array<string, array{id:int, title:string, summary:string, icon:string, sort_order:int, is_active:bool}>
+ * @return array<string, array{id:int, title:string, summary:string, icon:string, image:?string, sort_order:int, is_active:bool}>
  */
 function services(bool $onlyActive = true): array
 {
@@ -61,26 +61,27 @@ function slugExists(string $slug, ?int $exceptId = null): bool
     return (int) $stmt->fetchColumn() > 0;
 }
 
-function createService(string $slug, string $title, string $summary, string $icon, int $sortOrder, bool $isActive): void
+function createService(string $slug, string $title, string $summary, string $icon, ?string $image, int $sortOrder, bool $isActive): void
 {
     $stmt = db()->prepare(
-        'INSERT INTO services (slug, title, summary, icon, sort_order, is_active)
-         VALUES (:slug, :title, :summary, :icon, :sort_order, :is_active)'
+        'INSERT INTO services (slug, title, summary, icon, image, sort_order, is_active)
+         VALUES (:slug, :title, :summary, :icon, :image, :sort_order, :is_active)'
     );
     $stmt->execute([
         'slug'       => $slug,
         'title'      => $title,
         'summary'    => $summary,
         'icon'       => $icon,
+        'image'      => $image,
         'sort_order' => $sortOrder,
         'is_active'  => $isActive ? 1 : 0,
     ]);
 }
 
-function updateService(int $id, string $slug, string $title, string $summary, string $icon, int $sortOrder, bool $isActive): void
+function updateService(int $id, string $slug, string $title, string $summary, string $icon, ?string $image, int $sortOrder, bool $isActive): void
 {
     $stmt = db()->prepare(
-        "UPDATE services SET slug = :slug, title = :title, summary = :summary, icon = :icon,
+        "UPDATE services SET slug = :slug, title = :title, summary = :summary, icon = :icon, image = :image,
          sort_order = :sort_order, is_active = :is_active, updated_at = datetime('now')
          WHERE id = :id"
     );
@@ -89,6 +90,7 @@ function updateService(int $id, string $slug, string $title, string $summary, st
         'title'      => $title,
         'summary'    => $summary,
         'icon'       => $icon,
+        'image'      => $image,
         'sort_order' => $sortOrder,
         'is_active'  => $isActive ? 1 : 0,
         'id'         => $id,
@@ -107,7 +109,20 @@ function mapServiceRow(array $row): array
         'title'      => $row['title'],
         'summary'    => $row['summary'],
         'icon'       => $row['icon'],
+        'image'      => $row['image'] ?? null,
         'sort_order' => (int) $row['sort_order'],
         'is_active'  => (bool) $row['is_active'],
     ];
+}
+
+/** Curated, people-free images available for service cards. */
+function availableServiceImages(): array
+{
+    $images = [];
+    foreach (seedServicesData() as $service) {
+        if (!empty($service['image'])) {
+            $images[$service['image']] = $service['title'];
+        }
+    }
+    return $images;
 }
