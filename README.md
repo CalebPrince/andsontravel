@@ -4,6 +4,36 @@ A rebuild of [andsontravelconsult.com](https://andsontravelconsult.com/) as a pl
 SQLite-backed application/contact system and a Tailwind CSS v4 front end. No framework, no Composer
 dependencies: just PHP's built-in PDO SQLite driver and a Tailwind CLI build step for CSS.
 
+## About the business
+
+Andson Travel Consult is a travel consultancy and advisory service based in Accra, Ghana, helping
+clients prepare confidently for travel to the United States, United Kingdom, and Europe, with
+Canada, Australia, China, Japan and Turkey next on its roadmap. It is not a visa connection agency
+and does not guarantee visa outcomes; the business is committed to helping applicants complete
+their process correctly and confidently.
+
+- **Address:** Accra, Ghana
+- **Phone / WhatsApp:** +233 26 254 6032
+- **Email:** andsontravelconsult@gmail.com
+
+### Services offered
+
+| Service | What it covers |
+|---|---|
+| One-on-One Travel Advice | Personalized travel and immigration advice tailored to the client's situation |
+| Airbnb/Booking.com Booking | Assistance booking accommodations through Airbnb or Booking.com |
+| Visa Application Assistance | Guidance and assistance throughout the visa application process |
+| Online Passport Form Filling | Help filling out passport application forms online |
+| US Visa Form Filling Assistance | Help filling out US visa application forms accurately |
+| UK Visa Form Filling Assistance | Help filling out UK visa application forms accurately |
+| Visa Application Fee Payment | Assistance with paying visa application fees |
+| Visa Pick Up Service | Picking up visa documents on the applicant's behalf |
+| Counselling for Prospective Students | Guidance for students planning to study abroad |
+| Travel Insurance Assistance | Assistance obtaining travel insurance for a trip |
+
+This list, along with each service's icon, summary and active/inactive status, is editable from
+Admin > Services rather than hardcoded, see [Admin area](#admin-area) below.
+
 ## Requirements
 
 - PHP 8.1+ with the `pdo_sqlite` extension (bundled with PHP by default)
@@ -129,13 +159,45 @@ database/           SQLite database + schema.sql + seed_data.php (default servic
 1. Point the web server's document root at `public/`, **not** the project root. `src/` and
    `database/` must not be web-accessible; `.htaccess` files inside them deny direct access as a
    second line of defense even if the document root is ever misconfigured.
-2. Upload everything except `node_modules/`. Run `npm run build:css` locally first and upload the
-   resulting `public/assets/css/app.css` (Node isn't needed on the server itself).
+2. Upload everything except `node_modules/`. `public/assets/css/app.css` is already built and
+   committed, so no Node/npm step is required on the server; only rebuild it locally
+   (`npm run build:css`) if you've changed `src/input.css`.
 3. Make sure `database/` is writable by the PHP process (it creates `andson.sqlite` there on
    first request).
-4. Log in to `/admin/login.php` and change both default admin passwords right away.
-5. Send a test booking and a test enquiry, then check the business inbox (and its spam folder) to
+4. Confirm the PHP version is 8.1+ and the `pdo_sqlite` / `sqlite3` extensions are enabled.
+5. Log in to `/admin/login.php` and change both default admin passwords right away.
+6. Send a test booking and a test enquiry, then check the business inbox (and its spam folder) to
    confirm outbound mail actually works on that host.
+
+### Deploying to Bluehost (cPanel, addon domain, SSH)
+
+This is the exact setup this project was deployed to. Steps assume the domain is added as an
+**addon domain** on a Bluehost shared account with **SSH access**.
+
+1. **cPanel > Domains**: create (or edit) the addon domain and set its **Document Root** to a
+   `public` subfolder, e.g. `andsontravelconsult.com/public`. This mirrors the repo's own layout
+   (`public/` as the web root, `src/` and `database/` as siblings above it) with no code changes.
+2. **cPanel > MultiPHP Manager**: set the domain's PHP version to 8.1 or newer.
+3. **cPanel > MultiPHP INI Editor** (or PHP Selector "Extensions" tab): confirm `pdo_sqlite` and
+   `sqlite3` are enabled for that PHP version.
+4. **SSH in**, then clone the repo directly into the addon domain's root folder (the parent of the
+   `public/` document root you set in step 1):
+   ```bash
+   cd ~
+   rm -rf andsontravelconsult.com    # only if cPanel pre-created placeholder files there
+   git clone https://github.com/CalebPrince/andsontravel.git andsontravelconsult.com
+   ```
+5. **cPanel > Email Accounts**: create `noreply@andsontravelconsult.com` (used as the sending
+   address in `src/config.php`'s `MAIL_FROM_ADDRESS`; replies and admin notifications still go to
+   the Gmail inbox in `CONTACT_EMAIL`).
+6. **cPanel > SSL/TLS Status**: run AutoSSL for the domain if it isn't already issued.
+7. Visit the live domain, confirm the homepage renders correctly, then log in to `/admin/login.php`
+   and change both default passwords immediately.
+8. Submit a test booking and a test enquiry; confirm both the business inbox and the applicant
+   confirmation email arrive (check spam).
+
+To ship future changes: edit locally, `npm run build:css` if styles changed, commit and push to
+GitHub, then `git pull` over SSH in `~/andsontravelconsult.com` on the server.
 
 ## What's intentionally not built
 

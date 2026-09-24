@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 const SITE_NAME  = 'Andson Travel Consult';
 const SITE_TAGLINE = 'Beyond The Travel Agent';
-const SITE_URL   = '';
+const SITE_URL   = 'https://andsontravelconsult.com';
 
 const CONTACT_PHONE_DISPLAY = '+233 26 254 6032';
 const CONTACT_PHONE_TEL     = '+233262546032';
@@ -22,7 +22,14 @@ const CONTACT_ADDRESS       = 'Accra, Ghana';
 // so sends will silently fail there — see README).
 const ENABLE_EMAIL_NOTIFICATIONS = true;
 const MAIL_FROM_NAME    = SITE_NAME;
-const MAIL_FROM_ADDRESS = CONTACT_EMAIL;
+// Sent "From" a mailbox on the site's own domain (create this in cPanel >
+// Email Accounts) rather than CONTACT_EMAIL. Gmail's SPF/DMARC policy
+// causes most receiving servers to reject or spam-flag mail that claims to
+// be "From" a gmail.com address but wasn't actually sent via Google's own
+// servers, which is exactly what happens if a shared-hosting mail() send
+// uses a gmail.com From address. Replies still land in the Gmail inbox via
+// Reply-To (see src/mailer.php) and ADMIN_NOTIFY_EMAIL below.
+const MAIL_FROM_ADDRESS = 'noreply@andsontravelconsult.com';
 const ADMIN_NOTIFY_EMAIL = CONTACT_EMAIL;
 
 const DB_PATH     = __DIR__ . '/../database/andson.sqlite';
