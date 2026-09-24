@@ -80,45 +80,18 @@ require __DIR__ . '/../src/partials/header.php';
       </dl>
     </div>
 
-    <!-- Hero graphic: floating, non-photographic cards -->
-    <div class="relative hidden h-[360px] lg:block" aria-hidden="true">
-      <div class="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-500/20 blur-3xl"></div>
-
-      <div class="absolute left-1/2 top-1/2 flex h-56 w-56 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-dashed border-white/20">
-        <div class="flex h-36 w-36 items-center justify-center rounded-full bg-white/10 text-brand-400 ring-1 ring-white/10 backdrop-blur">
-          <?= icon('globe', 'h-16 w-16') ?>
+    <div class="relative mx-auto w-full max-w-xl lg:max-w-none">
+      <div class="absolute -inset-4 rounded-[2rem] bg-brand-500/20 blur-2xl" aria-hidden="true"></div>
+      <figure class="relative overflow-hidden rounded-3xl border border-white/15 bg-navy-800 shadow-2xl shadow-navy-950/40">
+        <img src="/assets/images/hero-world-travel.jpg"
+             alt="Air travel routes connecting destinations around the world"
+             width="1672" height="941" fetchpriority="high"
+             class="h-64 w-full object-cover sm:h-80 lg:h-[360px]">
+        <div class="absolute inset-x-0 bottom-0 flex items-center gap-2 bg-gradient-to-t from-navy-950/90 via-navy-950/55 to-transparent px-5 pb-5 pt-16 text-white">
+          <?= icon('check-circle', 'h-5 w-5 shrink-0 text-brand-400') ?>
+          <span class="text-xs font-bold sm:text-sm">Practical guidance for travel beyond borders</span>
         </div>
-      </div>
-
-      <div class="absolute left-2 top-6 flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-xl shadow-navy-950/30 -rotate-6">
-        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-600/10 text-brand-700">
-          <?= icon('passport', 'h-5 w-5') ?>
-        </div>
-        <div>
-          <p class="text-xs font-semibold text-navy-900">Passport &amp; Visa Forms</p>
-          <p class="text-[11px] text-navy-900/50">Reviewed line by line</p>
-        </div>
-      </div>
-
-      <div class="absolute right-0 top-24 flex items-center gap-2 rounded-full bg-white px-4 py-2.5 shadow-xl shadow-navy-950/30 rotate-3">
-        <?= icon('whatsapp', 'h-4 w-4 text-whatsapp-500') ?>
-        <span class="text-xs font-bold text-navy-900">Chat with an Agent</span>
-      </div>
-
-      <div class="absolute bottom-6 left-8 flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-xl shadow-navy-950/30 rotate-3">
-        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-600/10 text-brand-700">
-          <?= icon('plane', 'h-5 w-5') ?>
-        </div>
-        <div>
-          <p class="text-xs font-semibold text-navy-900">Flight &amp; Hotel Booking</p>
-          <p class="text-[11px] text-navy-900/50">Handled end to end</p>
-        </div>
-      </div>
-
-      <div class="absolute bottom-0 right-4 flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2 shadow-xl shadow-brand-600/30">
-        <?= icon('check-circle', 'h-4 w-4 text-white') ?>
-        <span class="text-xs font-bold text-white">Honest, No-Guarantee Advice</span>
-      </div>
+      </figure>
     </div>
   </div>
 </section>

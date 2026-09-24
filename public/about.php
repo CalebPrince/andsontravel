@@ -49,13 +49,21 @@ require __DIR__ . '/../src/partials/header.php';
         assistance, tourism packages, and counselling for prospective students heading abroad to study.
       </p>
     </div>
-    <div class="rounded-2xl border border-amber-500/20 bg-amber-50 p-6">
-      <h3 class="font-display text-sm font-bold uppercase tracking-widest text-amber-800">Important to know</h3>
-      <p class="mt-3 text-sm leading-relaxed text-amber-900/80">
-        We are <strong>not</strong> a visa connection agency, and we do <strong>not</strong> guarantee anyone a visa.
-        No legitimate consultancy can. What we guarantee is diligence: complete documentation, accurate forms, and
-        honest advice about your chances before you spend a single fee.
-      </p>
+    <div class="space-y-5">
+      <figure class="overflow-hidden rounded-3xl border border-navy-900/10 bg-sand-100 shadow-xl shadow-navy-950/10">
+        <img src="/assets/images/about-travel-documents.jpg"
+             alt="Passport and boarding passes arranged with a map and travel essentials"
+             width="1456" height="1088" loading="lazy"
+             class="aspect-[4/3] w-full object-cover">
+      </figure>
+      <div class="rounded-2xl border border-amber-500/20 bg-amber-50 p-6">
+        <h3 class="font-display text-sm font-bold uppercase tracking-widest text-amber-800">Important to know</h3>
+        <p class="mt-3 text-sm leading-relaxed text-amber-900/80">
+          We are <strong>not</strong> a visa connection agency, and we do <strong>not</strong> guarantee anyone a visa.
+          No legitimate consultancy can. What we guarantee is diligence: complete documentation, accurate forms, and
+          honest advice about your chances before you spend a single fee.
+        </p>
+      </div>
     </div>
   </div>
 </section>

@@ -233,7 +233,5 @@ GitHub, then `git pull` over SSH in `~/public_html/andsontravelconsult` on the s
   only), but Super Admin and Admin currently grant identical access. Nothing today is restricted
   to Super Admin except the Users page itself. Give Admin a narrower permission set once it's
   clear what staff accounts should and shouldn't be able to do.
-- **The 3 planned marketing graphics** (hero world-map banner, an About-page passport/boarding-pass
-  flat-lay, and a Contact-page map-pin graphic) were not generated; Higgsfield (the required image
-  generator for this project) was out of credits at build time. The site currently uses gradients
-  and the inline SVG icon set in their place; these can be generated and dropped in later.
+- **The Contact-page map-pin graphic** is still pending. The generated hero world-map banner and
+  About-page passport/boarding-pass flat-lay are now integrated and optimized as website assets.
