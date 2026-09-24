@@ -90,6 +90,17 @@ require __DIR__ . '/../src/partials/flash.php';
   <div class="grid gap-10 lg:grid-cols-5">
     <div class="lg:col-span-2">
       <div class="space-y-4">
+        <figure class="group relative overflow-hidden rounded-3xl border border-navy-900/10 bg-navy-900 shadow-xl shadow-navy-950/10">
+          <img src="/assets/images/contact-destination-map.jpg"
+               alt="Destination pins and travel routes marked across a world map"
+               width="1456" height="1088" loading="lazy"
+               class="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-[1.02]">
+          <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy-950/95 via-navy-950/65 to-transparent px-5 pb-5 pt-16 text-white">
+            <span class="flex items-center gap-2 text-sm font-bold">
+              <?= icon('location', 'h-5 w-5 shrink-0 text-brand-400') ?> Tell us where you want to go
+            </span>
+          </figcaption>
+        </figure>
         <div class="card flex items-start gap-4 p-5">
           <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-600/10 text-brand-700"><?= icon('location', 'h-5 w-5') ?></div>
           <div>
