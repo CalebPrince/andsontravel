@@ -11,10 +11,13 @@
   function openDrawer() {
     if (!menu || !backdrop) return;
     clearTimeout(drawerCloseTimer);
+    menu.removeAttribute('inert');
+    menu.setAttribute('aria-hidden', 'false');
     backdrop.classList.remove('hidden');
     document.body.classList.add('overflow-hidden');
     requestAnimationFrame(function () {
       menu.classList.remove('translate-x-full');
+      if (menuCloseBtn) menuCloseBtn.focus();
     });
     if (menuBtn) menuBtn.setAttribute('aria-expanded', 'true');
   }
@@ -22,15 +25,20 @@
   function closeDrawer() {
     if (!menu || !backdrop) return;
     menu.classList.add('translate-x-full');
+    menu.setAttribute('aria-hidden', 'true');
+    menu.setAttribute('inert', '');
     document.body.classList.remove('overflow-hidden');
     if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
     clearTimeout(drawerCloseTimer);
     drawerCloseTimer = setTimeout(function () {
       backdrop.classList.add('hidden');
     }, 300);
+    if (menuBtn) menuBtn.focus();
   }
 
   if (menuBtn && menu && backdrop) {
+    menu.setAttribute('aria-hidden', 'true');
+    menu.setAttribute('inert', '');
     menuBtn.addEventListener('click', openDrawer);
     if (menuCloseBtn) menuCloseBtn.addEventListener('click', closeDrawer);
     backdrop.addEventListener('click', closeDrawer);

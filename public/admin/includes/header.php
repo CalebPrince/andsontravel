@@ -63,17 +63,63 @@ $notifications = getUnreadNotifications();
     </div>
   </aside>
 
+  <!-- Mobile admin drawer -->
+  <div id="mobile-menu-backdrop" class="fixed inset-0 z-[60] hidden bg-navy-950/70 backdrop-blur-sm lg:hidden"></div>
+  <aside id="mobile-menu"
+         class="fixed inset-y-0 right-0 z-[70] flex w-[min(88vw,22rem)] translate-x-full flex-col bg-navy-950 text-white shadow-2xl transition-transform duration-300 ease-out lg:hidden"
+         role="dialog" aria-modal="true" aria-label="Admin navigation">
+    <div class="flex items-center justify-between border-b border-white/10 px-5 py-5">
+      <a href="/admin/index.php" class="flex items-center gap-3">
+        <span class="inline-flex items-center rounded-lg bg-white px-2.5 py-1.5">
+          <img src="/assets/images/logo-original.jpg" alt="<?= e(SITE_NAME) ?>" class="h-7 w-auto object-contain">
+        </span>
+        <span class="text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-400">Admin</span>
+      </a>
+      <button type="button" id="mobile-menu-close" class="flex h-10 w-10 items-center justify-center rounded-full text-white/70 transition hover:bg-white/10 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400">
+        <span class="sr-only">Close navigation</span>
+        <?= icon('close', 'h-6 w-6') ?>
+      </button>
+    </div>
+
+    <div class="border-b border-white/10 px-5 py-4">
+      <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/35">Signed in as</p>
+      <div class="mt-1 flex items-center gap-2">
+        <span class="text-sm font-semibold text-white"><?= e(currentAdminUsername()) ?></span>
+        <span class="rounded-full bg-brand-400/15 px-2.5 py-1 text-[10px] font-bold text-brand-400"><?= e(adminRoleLabel(currentAdminRole())) ?></span>
+      </div>
+    </div>
+
+    <nav class="flex-1 space-y-1 overflow-y-auto px-3 py-4" aria-label="Admin mobile navigation">
+      <?php foreach ($adminNav as $key => $link): ?>
+        <a href="<?= e($link['href']) ?>" <?= $activeAdminNav === $key ? 'aria-current="page"' : '' ?> class="group flex items-center gap-3 rounded-xl border-l-2 px-4 py-3 text-sm font-semibold transition <?= $activeAdminNav === $key ? 'border-brand-400 bg-white/10 text-white' : 'border-transparent text-white/60 hover:bg-white/5 hover:text-white' ?>">
+          <span class="<?= $activeAdminNav === $key ? 'text-brand-400' : 'text-white/40 group-hover:text-white/70' ?>"><?= icon($link['icon'], 'h-5 w-5') ?></span>
+          <?= e($link['label']) ?>
+        </a>
+      <?php endforeach; ?>
+    </nav>
+
+    <div class="border-t border-white/10 px-3 py-4">
+      <a href="/" target="_blank" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white">
+        <?= icon('globe', 'h-5 w-5') ?> View Site
+      </a>
+      <a href="/admin/logout.php" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white">
+        <?= icon('logout', 'h-5 w-5') ?> Log Out
+      </a>
+    </div>
+  </aside>
+
   <div class="flex min-w-0 flex-1 flex-col">
     <header class="flex items-center justify-between gap-4 border-b border-navy-900/5 bg-white px-4 py-4 sm:px-6 lg:px-8">
-      <div class="flex items-center gap-3 lg:hidden">
-        <img src="/assets/images/logo-original.jpg" alt="<?= e(SITE_NAME) ?>" class="h-8 w-auto object-contain">
-        <span class="font-display text-sm font-bold">Admin</span>
+      <div class="flex min-w-0 items-center gap-3 lg:hidden">
+        <button type="button" id="mobile-menu-btn" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-navy-900/10 text-navy-900 transition hover:bg-navy-900/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="sr-only">Open admin navigation</span>
+          <?= icon('menu', 'h-5 w-5') ?>
+        </button>
+        <div class="min-w-0">
+          <p class="text-[9px] font-bold uppercase tracking-[0.18em] text-brand-700">Admin</p>
+          <p class="truncate text-sm font-bold text-navy-900"><?= e($adminNav[$activeAdminNav]['label'] ?? 'Dashboard') ?></p>
+        </div>
       </div>
-      <nav class="flex items-center gap-1 overflow-x-auto lg:hidden">
-        <?php foreach ($adminNav as $key => $link): ?>
-          <a href="<?= e($link['href']) ?>" class="whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold <?= $activeAdminNav === $key ? 'bg-navy-900 text-white' : 'text-navy-900/60' ?>"><?= e($link['label']) ?></a>
-        <?php endforeach; ?>
-      </nav>
       <div class="ml-auto flex items-center gap-3 text-sm">
         <div class="relative">
           <button type="button" id="notif-bell-btn" class="relative flex h-10 w-10 items-center justify-center rounded-full text-navy-900/60 transition hover:bg-navy-900/5 hover:text-navy-900" aria-expanded="false" aria-controls="notif-dropdown">
@@ -115,9 +161,9 @@ $notifications = getUnreadNotifications();
           </div>
         </div>
 
-        <span class="hidden text-navy-900/50 sm:inline">Signed in as</span>
-        <span class="font-semibold"><?= e(currentAdminUsername()) ?></span>
-        <span class="badge bg-brand-600/10 text-brand-700"><?= e(adminRoleLabel(currentAdminRole())) ?></span>
+        <span class="hidden text-navy-900/50 lg:inline">Signed in as</span>
+        <span class="hidden font-semibold sm:inline"><?= e(currentAdminUsername()) ?></span>
+        <span class="hidden badge bg-brand-600/10 text-brand-700 md:inline-flex"><?= e(adminRoleLabel(currentAdminRole())) ?></span>
       </div>
     </header>
 
