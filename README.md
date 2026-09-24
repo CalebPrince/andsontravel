@@ -118,9 +118,10 @@ used by the admin list view.
 ## Email notifications
 
 `src/mailer.php` sends two emails on every successful submission (service booking or contact
-enquiry): one to the business inbox (`ADMIN_NOTIFY_EMAIL` in `src/config.php`, defaults to the
-site's contact email) with the full submission, and one confirmation to the person who submitted
-the form.
+enquiry): one to the notification address managed under **Admin > Settings** with the full
+submission, and one confirmation to the person who submitted the form. The notification address
+falls back to `ADMIN_NOTIFY_EMAIL` in `src/config.php` until an administrator saves a different
+address.
 
 This uses PHP's built-in `mail()` function: no SMTP library, API key, or Composer dependency.
 That means it depends entirely on the host having a working mail transport:

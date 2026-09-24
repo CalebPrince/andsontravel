@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
 
             sendAppEmail(
-                ADMIN_NOTIFY_EMAIL,
+                notificationEmail(),
                 'New Enquiry from ' . $fullName . ': ' . ($subject !== '' ? $subject : 'General Enquiry'),
                 emailTemplate('New Website Enquiry', 'A new message came in through the contact form.', [
                     'Name'    => $fullName,

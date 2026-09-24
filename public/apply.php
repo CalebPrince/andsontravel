@@ -58,7 +58,7 @@ if ($service && $_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
 
             sendAppEmail(
-                ADMIN_NOTIFY_EMAIL,
+                notificationEmail(),
                 'New Booking for ' . $service['title'] . ' from ' . $core['full_name'],
                 emailTemplate('New Service Booking: ' . $service['title'], 'A new application came in through the website.', $answers)
             );
@@ -119,7 +119,7 @@ if ($service && $_SERVER['REQUEST_METHOD'] === 'POST') {
                 'Message'     => $message,
             ];
             sendAppEmail(
-                ADMIN_NOTIFY_EMAIL,
+                notificationEmail(),
                 'New Booking for ' . $service['title'] . ' from ' . $fullName,
                 emailTemplate('New Service Booking: ' . $service['title'], 'A new application came in through the website.', $genericRows)
             );

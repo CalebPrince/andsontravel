@@ -28,7 +28,8 @@ const MAIL_FROM_NAME    = SITE_NAME;
 // be "From" a gmail.com address but wasn't actually sent via Google's own
 // servers, which is exactly what happens if a shared-hosting mail() send
 // uses a gmail.com From address. Replies still land in the Gmail inbox via
-// Reply-To (see src/mailer.php) and ADMIN_NOTIFY_EMAIL below.
+// Reply-To (see src/mailer.php). ADMIN_NOTIFY_EMAIL is the fallback recipient
+// until an administrator saves a notification address under Admin > Settings.
 const MAIL_FROM_ADDRESS = 'noreply@andsontravelconsult.com';
 const ADMIN_NOTIFY_EMAIL = CONTACT_EMAIL;
 

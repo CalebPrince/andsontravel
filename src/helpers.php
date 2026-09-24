@@ -105,6 +105,13 @@ function setSetting(string $key, string $value): void
     $stmt->execute(['key' => $key, 'value' => $value]);
 }
 
+/** Email address that receives new booking and enquiry notifications. */
+function notificationEmail(): string
+{
+    $email = getSetting('notification_email', ADMIN_NOTIFY_EMAIL);
+    return filter_var($email, FILTER_VALIDATE_EMAIL) ? $email : ADMIN_NOTIFY_EMAIL;
+}
+
 function statusBadgeClasses(string $status): string
 {
     return match ($status) {

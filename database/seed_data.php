@@ -41,7 +41,8 @@ function seedFaqsData(): array
 function seedSettingsData(): array
 {
     return [
-        'facebook_url'  => '',
-        'instagram_url' => '',
+        'facebook_url'      => '',
+        'instagram_url'     => '',
+        'notification_email' => '',
     ];
 }
