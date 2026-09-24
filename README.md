@@ -174,16 +174,28 @@ database/           SQLite database + schema.sql + seed_data.php (default servic
 This is the exact setup this project was deployed to. Steps assume the domain is added as an
 **addon domain** on a Bluehost shared account with **SSH access**.
 
-1. **cPanel > Domains**: create (or edit) the addon domain and set its **Document Root** to a
-   `public` subfolder, e.g. `andsontravelconsult.com/public`. This mirrors the repo's own layout
-   (`public/` as the web root, `src/` and `database/` as siblings above it) with no code changes.
+On Bluehost, an addon domain's files live in their own folder **inside** `public_html`, at
+`public_html/andsontravelconsult.com/`. The document root then points at the `public/` subfolder
+of that:
+
+```
+public_html/
+  andsontravelconsult.com/     <- repo root: git clone goes here
+    public/                    <- document root points here
+    src/
+    database/
+    ...
+```
+
+1. **cPanel > Domains**: create (or edit) the addon domain and set its **Document Root** to
+   `public_html/andsontravelconsult.com/public`. This mirrors the repo's own layout (`public/` as
+   the web root, `src/` and `database/` as siblings above it) with no code changes.
 2. **cPanel > MultiPHP Manager**: set the domain's PHP version to 8.1 or newer.
 3. **cPanel > MultiPHP INI Editor** (or PHP Selector "Extensions" tab): confirm `pdo_sqlite` and
    `sqlite3` are enabled for that PHP version.
-4. **SSH in**, then clone the repo directly into the addon domain's root folder (the parent of the
-   `public/` document root you set in step 1):
+4. **SSH in**, then clone the repo directly into `public_html/andsontravelconsult.com`:
    ```bash
-   cd ~
+   cd ~/public_html
    rm -rf andsontravelconsult.com    # only if cPanel pre-created placeholder files there
    git clone https://github.com/CalebPrince/andsontravel.git andsontravelconsult.com
    ```
@@ -197,7 +209,7 @@ This is the exact setup this project was deployed to. Steps assume the domain is
    confirmation email arrive (check spam).
 
 To ship future changes: edit locally, `npm run build:css` if styles changed, commit and push to
-GitHub, then `git pull` over SSH in `~/andsontravelconsult.com` on the server.
+GitHub, then `git pull` over SSH in `~/public_html/andsontravelconsult.com` on the server.
 
 ## What's intentionally not built
 
