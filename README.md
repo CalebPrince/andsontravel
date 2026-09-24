@@ -174,42 +174,51 @@ database/           SQLite database + schema.sql + seed_data.php (default servic
 This is the exact setup this project was deployed to. Steps assume the domain is added as an
 **addon domain** on a Bluehost shared account with **SSH access**.
 
-On Bluehost, an addon domain's files live in their own folder **inside** `public_html`, at
-`public_html/andsontravelconsult.com/`. The document root then points at the `public/` subfolder
-of that:
+For this account, the addon domain's repository lives inside `public_html` at
+`public_html/andsontravelconsult/`. The domain's document root points at the `public/` subfolder
+inside that repository:
 
 ```
 public_html/
-  andsontravelconsult.com/     <- repo root: git clone goes here
-    public/                    <- document root points here
+  andsontravelconsult/         <- repo root: git clone goes here
+    public/                    <- domain document root points here
     src/
     database/
     ...
 ```
 
 1. **cPanel > Domains**: create (or edit) the addon domain and set its **Document Root** to
-   `public_html/andsontravelconsult.com/public`. This mirrors the repo's own layout (`public/` as
+   `public_html/andsontravelconsult/public`. This mirrors the repo's own layout (`public/` as
    the web root, `src/` and `database/` as siblings above it) with no code changes.
 2. **cPanel > MultiPHP Manager**: set the domain's PHP version to 8.1 or newer.
-3. **cPanel > MultiPHP INI Editor** (or PHP Selector "Extensions" tab): confirm `pdo_sqlite` and
-   `sqlite3` are enabled for that PHP version.
-4. **SSH in**, then clone the repo directly into `public_html/andsontravelconsult.com`:
+3. Confirm `pdo_sqlite` and `sqlite3` are enabled. Bluehost shared hosting may manage PHP modules
+   server-wide and therefore show no Extensions selector. Verify the effective **web** PHP version
+   and both modules with a temporary PHP diagnostic file in the document root, then delete it.
+   The reported web version must be 8.1 or newer even if MultiPHP Manager shows a newer selection;
+   if it is not, ask Bluehost to correct the PHP handler for the addon domain.
+4. **SSH in**, inspect `public_html/andsontravelconsult` if cPanel already created it, and remove
+   only confirmed placeholder files. Then clone the repo directly into that path:
    ```bash
    cd ~/public_html
-   rm -rf andsontravelconsult.com    # only if cPanel pre-created placeholder files there
-   git clone https://github.com/CalebPrince/andsontravel.git andsontravelconsult.com
+   git clone https://github.com/CalebPrince/andsontravel.git andsontravelconsult
+   cd ~/public_html/andsontravelconsult
+   chmod 775 database
    ```
-5. **cPanel > Email Accounts**: create `noreply@andsontravelconsult.com` (used as the sending
+   Bluehost may display this as an absolute `/home.../<account>/public_html/andsontravelconsult`
+   path; regardless of the account prefix, the document root is its `public/` directory.
+5. Visit the site once, then confirm `database/andson.sqlite` was created. Do not use permission
+   mode `777`; `775` on the `database/` directory is sufficient for this account.
+6. **cPanel > Email Accounts**: create `noreply@andsontravelconsult.com` (used as the sending
    address in `src/config.php`'s `MAIL_FROM_ADDRESS`; replies and admin notifications still go to
    the Gmail inbox in `CONTACT_EMAIL`).
-6. **cPanel > SSL/TLS Status**: run AutoSSL for the domain if it isn't already issued.
-7. Visit the live domain, confirm the homepage renders correctly, then log in to `/admin/login.php`
+7. **cPanel > SSL/TLS Status**: run AutoSSL for the domain if it isn't already issued.
+8. Visit the live domain, confirm the homepage renders correctly, then log in to `/admin/login.php`
    and change both default passwords immediately.
-8. Submit a test booking and a test enquiry; confirm both the business inbox and the applicant
+9. Submit a test booking and a test enquiry; confirm both the business inbox and the applicant
    confirmation email arrive (check spam).
 
 To ship future changes: edit locally, `npm run build:css` if styles changed, commit and push to
-GitHub, then `git pull` over SSH in `~/public_html/andsontravelconsult.com` on the server.
+GitHub, then `git pull` over SSH in `~/public_html/andsontravelconsult` on the server.
 
 ## What's intentionally not built
 
