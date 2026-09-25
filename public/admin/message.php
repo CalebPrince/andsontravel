@@ -46,6 +46,9 @@ if ($msg['status'] === 'new') {
     $msg['status'] = 'read';
 }
 
+// Opening the record clears it from the notification bell.
+db()->prepare("UPDATE contact_messages SET seen_at = datetime('now') WHERE id = :id AND seen_at IS NULL")->execute(['id' => $id]);
+
 $pageTitle = $msg['full_name'] . ' (Admin)';
 $activeAdminNav = 'messages';
 

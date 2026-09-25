@@ -92,9 +92,13 @@ The admin area has a sidebar with:
 - **Settings**: change your own password
 
 A notification bell in the top-right of every admin page shows a badge count and dropdown of
-unread service bookings and enquiries (newest first), with a "Mark all as read" link. This read
-state (`seen_at` on each row) is separate from the `status` field used for the bookings/enquiries
-work pipeline, so clearing notifications never changes an item's actual status.
+unread service bookings and enquiries (newest first), with a "Mark all as read" link. The count
+and list refresh in the background every 30 seconds, immediately when the dropdown is opened, and
+instantly when the admin returns to the tab, so new notifications appear without a page reload.
+Clicking an individual notification marks that item read immediately and decrements the badge,
+then takes you to its record. "Mark all as read" also updates the dropdown in place with no reload.
+This read state (`seen_at` on each row) is separate from the `status` field used for the
+bookings/enquiries work pipeline, so clearing notifications never changes an item's actual status.
 
 ## Service application forms
 

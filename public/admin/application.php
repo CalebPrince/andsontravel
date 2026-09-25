@@ -12,6 +12,9 @@ if (!$app) {
     redirect('/admin/applications.php');
 }
 
+// Opening the record clears it from the notification bell.
+db()->prepare("UPDATE applications SET seen_at = datetime('now') WHERE id = :id AND seen_at IS NULL")->execute(['id' => $id]);
+
 $validStatuses = ['new', 'contacted', 'in_progress', 'completed', 'closed'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

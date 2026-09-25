@@ -125,38 +125,31 @@ $notifications = getUnreadNotifications();
           <button type="button" id="notif-bell-btn" class="relative flex h-10 w-10 items-center justify-center rounded-full text-navy-900/60 transition hover:bg-navy-900/5 hover:text-navy-900" aria-expanded="false" aria-controls="notif-dropdown">
             <span class="sr-only">Notifications</span>
             <?= icon('bell', 'h-5 w-5') ?>
-            <?php if ($unreadNotifCount > 0): ?>
-              <span class="absolute right-0.5 top-0.5 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold leading-none text-white">
-                <?= $unreadNotifCount > 9 ? '9+' : $unreadNotifCount ?>
-              </span>
-            <?php endif; ?>
+            <span id="notif-count" data-count="<?= $unreadNotifCount ?>" class="absolute right-0.5 top-0.5 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold leading-none text-white <?= $unreadNotifCount > 0 ? '' : 'hidden' ?>">
+              <?= $unreadNotifCount > 9 ? '9+' : $unreadNotifCount ?>
+            </span>
           </button>
 
-          <div id="notif-dropdown" class="hidden absolute right-0 z-50 mt-2 w-80 max-w-[90vw] overflow-hidden rounded-2xl border border-navy-900/10 bg-white text-left shadow-xl">
+          <div id="notif-dropdown" data-csrf="<?= e(csrfToken()) ?>" class="hidden absolute right-0 z-50 mt-2 w-80 max-w-[90vw] overflow-hidden rounded-2xl border border-navy-900/10 bg-white text-left shadow-xl">
             <div class="flex items-center justify-between border-b border-navy-900/5 px-4 py-3">
               <h3 class="font-display text-sm font-bold text-navy-900">Notifications</h3>
-              <?php if ($unreadNotifCount > 0): ?>
-                <form method="post" action="/admin/notifications.php">
-                  <?= csrfField() ?>
-                  <input type="hidden" name="action" value="mark_all_read">
-                  <button type="submit" class="text-xs font-semibold text-brand-700 hover:text-brand-600">Mark all as read</button>
-                </form>
-              <?php endif; ?>
+              <form id="notif-mark-all" method="post" action="/admin/notifications.php" class="<?= $unreadNotifCount > 0 ? '' : 'hidden' ?>">
+                <?= csrfField() ?>
+                <input type="hidden" name="action" value="mark_all_read">
+                <button type="submit" class="text-xs font-semibold text-brand-700 hover:text-brand-600">Mark all as read</button>
+              </form>
             </div>
-            <div class="max-h-80 overflow-y-auto">
-              <?php if (!$notifications): ?>
-                <p class="px-4 py-8 text-center text-sm text-navy-900/40">You&rsquo;re all caught up.</p>
-              <?php else: ?>
-                <?php foreach ($notifications as $notif): ?>
-                  <a href="<?= e($notif['url']) ?>" class="flex items-start gap-3 border-b border-navy-900/5 px-4 py-3 last:border-0 hover:bg-navy-900/[0.02]">
-                    <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-brand-600"></span>
-                    <span class="min-w-0">
-                      <span class="block truncate text-sm font-semibold text-navy-900"><?= e($notif['title']) ?></span>
-                      <span class="block truncate text-xs text-navy-900/50"><?= e($notif['subtitle']) ?> &middot; <?= timeAgo($notif['created_at']) ?></span>
-                    </span>
-                  </a>
-                <?php endforeach; ?>
-              <?php endif; ?>
+            <div id="notif-list" class="max-h-80 overflow-y-auto">
+              <p id="notif-empty" class="px-4 py-8 text-center text-sm text-navy-900/40 <?= $notifications ? 'hidden' : '' ?>">You&rsquo;re all caught up.</p>
+              <?php foreach ($notifications as $notif): ?>
+                <a href="<?= e($notif['url']) ?>" data-notif-type="<?= e($notif['type']) ?>" data-notif-id="<?= $notif['id'] ?>" class="flex items-start gap-3 border-b border-navy-900/5 px-4 py-3 last:border-0 hover:bg-navy-900/[0.02]">
+                  <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-brand-600"></span>
+                  <span class="min-w-0">
+                    <span class="block truncate text-sm font-semibold text-navy-900"><?= e($notif['title']) ?></span>
+                    <span class="block truncate text-xs text-navy-900/50"><?= e($notif['subtitle']) ?> &middot; <?= timeAgo($notif['created_at']) ?></span>
+                  </span>
+                </a>
+              <?php endforeach; ?>
             </div>
           </div>
         </div>
