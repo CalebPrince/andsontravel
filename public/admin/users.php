@@ -3,7 +3,7 @@ require_once __DIR__ . '/../../src/bootstrap.php';
 requireSuperAdmin();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!csrfCheck()) {
+    if (!csrfCheck() || isBotSubmission(false)) {
         flash('error', 'Your session expired. Please try again.');
         redirect('/admin/users.php');
     }
@@ -80,6 +80,7 @@ require __DIR__ . '/../../src/partials/flash.php';
               </a>
               <form method="post" action="/admin/users.php" onsubmit="return confirm('Delete this user? They will immediately lose access.');">
                 <?= csrfField() ?>
+                <?= botTrapFields(false) ?>
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="id" value="<?= (int) $adminRow['id'] ?>">
                 <button type="submit" class="flex h-8 w-8 items-center justify-center rounded-lg text-red-500/60 hover:bg-red-50 hover:text-red-700" title="Delete">

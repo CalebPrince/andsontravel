@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $wantsJson = ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'fetch'
         || str_contains($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json');
 
-    if (!csrfCheck()) {
+    if (!csrfCheck() || isBotSubmission(false)) {
         if ($wantsJson) jsonRespond(['ok' => false, 'error' => 'csrf']);
         flash('error', 'Your session expired. Please try again.');
     } else {

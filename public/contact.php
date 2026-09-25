@@ -6,6 +6,11 @@ $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!csrfCheck()) {
         $errors[] = 'Your session expired. Please try submitting the form again.';
+    } elseif (isBotSubmission()) {
+        // Silently discard automated submissions: confirm without saving or emailing.
+        clearOldInput();
+        flash('success', 'Thanks! Your message has been sent. We&rsquo;ll be in touch shortly.');
+        redirect('/contact.php');
     } else {
         $fullName = trim((string) ($_POST['full_name'] ?? ''));
         $email    = trim((string) ($_POST['email'] ?? ''));
@@ -131,6 +136,7 @@ require __DIR__ . '/../src/partials/flash.php';
     <div class="lg:col-span-3">
       <form method="post" action="/contact.php" data-guard class="card space-y-5 p-6 sm:p-8">
         <?= csrfField() ?>
+        <?= botTrapFields() ?>
 
         <?php if ($errors): ?>
           <div class="rounded-xl border border-red-500/30 bg-red-50 p-4 text-sm text-red-800">

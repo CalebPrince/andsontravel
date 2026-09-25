@@ -6,7 +6,7 @@ $errors = [];
 $notificationEmail = getSetting('notification_email', ADMIN_NOTIFY_EMAIL);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!csrfCheck()) {
+    if (!csrfCheck() || isBotSubmission(false)) {
         $errors[] = 'Your session expired. Please try again.';
     } elseif (($_POST['action'] ?? '') === 'notification_email') {
         $notificationEmail = trim((string) ($_POST['notification_email'] ?? ''));
@@ -78,6 +78,7 @@ require __DIR__ . '/../../src/partials/flash.php';
 
     <form method="post" action="/admin/settings.php" class="mt-5 space-y-4">
       <?= csrfField() ?>
+      <?= botTrapFields(false) ?>
       <input type="hidden" name="action" value="notification_email">
       <div>
         <label for="notification_email" class="field-label">Recipient email address</label>
@@ -93,6 +94,7 @@ require __DIR__ . '/../../src/partials/flash.php';
 
     <form method="post" action="/admin/settings.php" class="mt-5 space-y-4">
       <?= csrfField() ?>
+      <?= botTrapFields(false) ?>
       <input type="hidden" name="action" value="password">
       <div>
         <label for="current_password" class="field-label">Current password</label>

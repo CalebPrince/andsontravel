@@ -17,7 +17,7 @@ $values = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!csrfCheck()) {
+    if (!csrfCheck() || isBotSubmission(false)) {
         $errors[] = 'Your session expired. Please try again.';
     } else {
         $values['username'] = trim((string) ($_POST['username'] ?? ''));
@@ -94,6 +94,7 @@ require __DIR__ . '/../../src/partials/flash.php';
 
   <form method="post" action="<?= $id ? '/admin/user-form.php?id=' . $id : '/admin/user-form.php' ?>" class="card mt-4 space-y-5 p-6 sm:p-8">
     <?= csrfField() ?>
+    <?= botTrapFields(false) ?>
 
     <div>
       <label for="username" class="field-label">Username</label>

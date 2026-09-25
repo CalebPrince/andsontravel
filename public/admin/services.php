@@ -3,7 +3,7 @@ require_once __DIR__ . '/../../src/bootstrap.php';
 requireAdmin();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!csrfCheck()) {
+    if (!csrfCheck() || isBotSubmission(false)) {
         flash('error', 'Your session expired. Please try again.');
         redirect('/admin/services.php');
     }
@@ -92,6 +92,7 @@ require __DIR__ . '/../../src/partials/flash.php';
               </a>
               <form method="post" action="/admin/services.php">
                 <?= csrfField() ?>
+                <?= botTrapFields(false) ?>
                 <input type="hidden" name="action" value="toggle_active">
                 <input type="hidden" name="id" value="<?= $service['id'] ?>">
                 <input type="hidden" name="slug" value="<?= e($slug) ?>">
@@ -101,6 +102,7 @@ require __DIR__ . '/../../src/partials/flash.php';
               </form>
               <form method="post" action="/admin/services.php" onsubmit="return confirm('Delete this service? This cannot be undone.');">
                 <?= csrfField() ?>
+                <?= botTrapFields(false) ?>
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="id" value="<?= $service['id'] ?>">
                 <button type="submit" class="flex h-7 w-7 items-center justify-center rounded-lg text-red-500/60 hover:bg-red-50 hover:text-red-700" title="Delete">

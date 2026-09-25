@@ -40,6 +40,42 @@ function csrfCheck(): bool
     return is_string($token) && !empty($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
 
+/**
+ * Hidden anti-bot fields for the public forms: an off-screen "website" text
+ * input that humans never see but naive bots blindly autofill, plus (when
+ * enabled) a timestamp used to reject submissions quicker than a human could
+ * type one. Rendered with inline styles so no Tailwind rebuild is needed.
+ */
+function botTrapFields(bool $withTimeTrap = true): string
+{
+    $html = '<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" '
+        . 'style="position:absolute;left:-9999px;top:-9999px;width:0;height:0;border:0;padding:0;opacity:0;">';
+    if ($withTimeTrap) {
+        $html .= '<input type="hidden" name="form_time" value="' . time() . '">';
+    }
+    return $html;
+}
+
+/**
+ * True when a submission looks automated: the honeypot field was filled, or
+ * (with the time trap enabled) the form was submitted too fast to have been
+ * typed by a person. The time trap is skipped on short forms (login) where a
+ * password manager could legitimately complete and submit them in under 3s.
+ */
+function isBotSubmission(bool $withTimeTrap = true): bool
+{
+    if (trim((string) ($_POST['website'] ?? '')) !== '') {
+        return true;
+    }
+    if ($withTimeTrap) {
+        $rendered = (int) ($_POST['form_time'] ?? 0);
+        if ($rendered > 0 && time() - $rendered < 3) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function flash(string $type, string $message): void
 {
     $_SESSION['flash'][] = ['type' => $type, 'message' => $message];

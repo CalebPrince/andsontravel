@@ -135,6 +135,7 @@ $notifications = getUnreadNotifications();
               <h3 class="font-display text-sm font-bold text-navy-900">Notifications</h3>
               <form id="notif-mark-all" method="post" action="/admin/notifications.php" class="<?= $unreadNotifCount > 0 ? '' : 'hidden' ?>">
                 <?= csrfField() ?>
+                <?= botTrapFields(false) ?>
                 <input type="hidden" name="action" value="mark_all_read">
                 <button type="submit" class="text-xs font-semibold text-brand-700 hover:text-brand-600">Mark all as read</button>
               </form>

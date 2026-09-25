@@ -140,6 +140,28 @@ That means it depends entirely on the host having a working mail transport:
   `src/mailer.php` for an SMTP/API-based sender; nothing else needs to change since every caller
   just uses `sendAppEmail($to, $subject, $htmlBody)`.
 
+## Spam protection
+
+Every form that writes to the database is shielded with a honeypot plus a submission-time check
+(`botTrapFields()` and `isBotSubmission()` in `src/helpers.php`):
+
+- **Honeypot field**: an invisible `website` text field (off-screen, `tabindex="-1"`,
+  `autocomplete="off"`, `aria-hidden`) that humans never see. Bots that auto-fill every input trip
+  it, and the submission is rejected.
+- **Submission time trap** (public booking and contact forms only): a hidden `form_time` loaded
+  with the page's timestamp. Submissions that arrive less than three seconds after the form was
+  rendered are dropped too, since no human completes the form that fast.
+
+What happens on detection depends on the form:
+
+- **Public booking (`/apply.php`) and enquiry (`/contact.php`) forms**: the submission is silently
+  discarded, but the visitor still sees the normal success message and redirect, so bots can't tell
+  they were blocked. No database row and no email is created.
+- **Admin forms** (settings, social links, service/FAQ/user forms, status saves, toggles, deletes,
+  and login): the submit is rejected with the same generic "session expired" / "incorrect username
+  or password" error as a normal failed submit. Admin forms skip the time trap so that quick,
+  legitimate actions (a toggle or a status save) are never false-flagged.
+
 ## Project layout
 
 ```

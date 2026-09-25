@@ -9,7 +9,7 @@ $values = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!csrfCheck()) {
+    if (!csrfCheck() || isBotSubmission(false)) {
         $errors[] = 'Your session expired. Please try again.';
     } else {
         $values['facebook_url']  = trim((string) ($_POST['facebook_url'] ?? ''));
@@ -54,6 +54,7 @@ require __DIR__ . '/../../src/partials/flash.php';
 
     <form method="post" action="/admin/social-links.php" class="space-y-5">
       <?= csrfField() ?>
+      <?= botTrapFields(false) ?>
 
       <div>
         <label for="facebook_url" class="field-label flex items-center gap-1.5"><?= icon('facebook', 'h-4 w-4 text-navy-900/40') ?> Facebook Page URL</label>

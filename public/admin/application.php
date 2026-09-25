@@ -18,7 +18,7 @@ db()->prepare("UPDATE applications SET seen_at = datetime('now') WHERE id = :id 
 $validStatuses = ['new', 'contacted', 'in_progress', 'completed', 'closed'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!csrfCheck()) {
+    if (!csrfCheck() || isBotSubmission(false)) {
         flash('error', 'Your session expired. Please try again.');
         redirect('/admin/application.php?id=' . $id);
     }
@@ -111,6 +111,7 @@ require __DIR__ . '/../../src/partials/flash.php';
       <h2 class="font-display text-sm font-bold text-navy-900">Update Status</h2>
       <form method="post" action="/admin/application.php?id=<?= $id ?>" class="mt-4 space-y-3">
         <?= csrfField() ?>
+        <?= botTrapFields(false) ?>
         <input type="hidden" name="action" value="update_status">
         <select name="status" class="field-input">
           <?php foreach ($validStatuses as $status): ?>
@@ -134,6 +135,7 @@ require __DIR__ . '/../../src/partials/flash.php';
       <p class="mt-2 text-xs text-navy-900/50">Permanently delete this application record.</p>
       <form method="post" action="/admin/application.php?id=<?= $id ?>" class="mt-4" onsubmit="return confirm('Delete this application? This cannot be undone.');">
         <?= csrfField() ?>
+        <?= botTrapFields(false) ?>
         <input type="hidden" name="action" value="delete">
         <button type="submit" class="btn w-full border border-red-300 text-red-700 hover:bg-red-50"><?= icon('trash', 'h-4 w-4') ?> Delete</button>
       </form>

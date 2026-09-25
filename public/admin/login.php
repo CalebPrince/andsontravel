@@ -14,7 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = trim((string) ($_POST['username'] ?? ''));
         $password = (string) ($_POST['password'] ?? '');
 
-        if (attemptAdminLogin($username, $password)) {
+        // Reject automated submissions (honeypot field) without revealing why.
+        if (!isBotSubmission(false) && attemptAdminLogin($username, $password)) {
             redirect('/admin/index.php');
         }
 
@@ -49,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <form method="post" action="/admin/login.php" class="rounded-2xl bg-white p-6 shadow-xl">
     <?= csrfField() ?>
+    <?= botTrapFields(false) ?>
 
     <?php if ($error): ?>
       <div class="mb-4 rounded-xl border border-red-500/30 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">

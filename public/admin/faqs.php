@@ -3,7 +3,7 @@ require_once __DIR__ . '/../../src/bootstrap.php';
 requireAdmin();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!csrfCheck()) {
+    if (!csrfCheck() || isBotSubmission(false)) {
         flash('error', 'Your session expired. Please try again.');
         redirect('/admin/faqs.php');
     }
@@ -69,6 +69,7 @@ require __DIR__ . '/../../src/partials/flash.php';
         </a>
         <form method="post" action="/admin/faqs.php">
           <?= csrfField() ?>
+          <?= botTrapFields(false) ?>
           <input type="hidden" name="action" value="toggle_active">
           <input type="hidden" name="id" value="<?= $faq['id'] ?>">
           <button type="submit" class="flex h-8 w-8 items-center justify-center rounded-lg text-navy-900/40 hover:bg-navy-900/5 hover:text-navy-900" title="<?= $faq['is_active'] ? 'Deactivate' : 'Activate' ?>">
@@ -77,6 +78,7 @@ require __DIR__ . '/../../src/partials/flash.php';
         </form>
         <form method="post" action="/admin/faqs.php" onsubmit="return confirm('Delete this FAQ? This cannot be undone.');">
           <?= csrfField() ?>
+          <?= botTrapFields(false) ?>
           <input type="hidden" name="action" value="delete">
           <input type="hidden" name="id" value="<?= $faq['id'] ?>">
           <button type="submit" class="flex h-8 w-8 items-center justify-center rounded-lg text-red-500/60 hover:bg-red-50 hover:text-red-700" title="Delete">

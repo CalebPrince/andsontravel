@@ -10,6 +10,11 @@ $errors = [];
 if ($service && $_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!csrfCheck()) {
         $errors[] = 'Your session expired. Please try submitting the form again.';
+    } elseif (isBotSubmission()) {
+        // Silently discard automated submissions: confirm without saving or emailing.
+        clearOldInput();
+        flash('success', 'Thanks! Your application for "' . $service['title'] . '" has been received. We&rsquo;ll be in touch shortly.');
+        redirect('/apply.php?service=' . urlencode($service['slug']));
     } elseif ($schema) {
         // Service-specific form (ported from the live site): fields vary per
         // service, so every answer is captured in $answers (stored as JSON in
@@ -196,6 +201,7 @@ require __DIR__ . '/../src/partials/flash.php';
 
     <form method="post" action="/apply.php?service=<?= urlencode($service['slug']) ?>" data-guard class="card space-y-5 p-6 sm:p-8">
       <?= csrfField() ?>
+      <?= botTrapFields() ?>
       <input type="hidden" name="service" value="<?= e($service['slug']) ?>">
 
       <?php if ($errors): ?>

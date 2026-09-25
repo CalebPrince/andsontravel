@@ -22,7 +22,7 @@ $values = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!csrfCheck()) {
+    if (!csrfCheck() || isBotSubmission(false)) {
         $errors[] = 'Your session expired. Please try again.';
     } else {
         $values['title']      = trim((string) ($_POST['title'] ?? ''));
@@ -89,6 +89,7 @@ require __DIR__ . '/../../src/partials/flash.php';
 
   <form method="post" action="<?= $id ? '/admin/service-form.php?id=' . $id : '/admin/service-form.php' ?>" class="card mt-4 space-y-5 p-6 sm:p-8">
     <?= csrfField() ?>
+    <?= botTrapFields(false) ?>
 
     <div>
       <label for="title" class="field-label">Title</label>
